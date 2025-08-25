@@ -1,0 +1,12 @@
+# Visual Studio / .NET Core
+## Ignore sensitive files
+appsettings.Development.json
+*.user
+*.suo
+
+## Ignore build output
+[Bb]in/
+[Oo]bj/
+
+## Ignore Visual Studio temporary files
+.vs/
