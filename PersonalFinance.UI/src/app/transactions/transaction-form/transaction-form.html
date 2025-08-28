@@ -1,0 +1,74 @@
+<h1 mat-dialog-title>{{ dialogTitle }}</h1>
+
+<div mat-dialog-content>
+  <form [formGroup]="transactionForm" class="transaction-form">
+    <!-- Title -->
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" required>
+    </mat-form-field>
+
+    <!-- Amount -->
+    <mat-form-field appearance="outline">
+      <mat-label>Amount</mat-label>
+      <input matInput formControlName="amount" type="number" placeholder="0.00" required>
+    </mat-form-field>
+
+    <!-- Date -->
+    <mat-form-field appearance="outline">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date" required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    
+    <!-- Type -->
+    <mat-form-field appearance="outline">
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="type" required>
+            <mat-option [value]="transactionType.Income">Income</mat-option>
+            <mat-option [value]="transactionType.Expense">Expense</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- Status -->
+    <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status" required>
+            <mat-option [value]="transactionStatus.Cleared">Cleared</mat-option>
+            <mat-option [value]="transactionStatus.Pending">Pending</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- Category Dropdown -->
+    <mat-form-field appearance="outline">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="categoryId" required>
+        <mat-option *ngFor="let category of categories$ | async" [value]="category.id">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Account Dropdown -->
+    <mat-form-field appearance="outline">
+      <mat-label>Account</mat-label>
+      <mat-select formControlName="accountId" required>
+        <mat-option *ngFor="let account of accounts$ | async" [value]="account.id">
+          {{ account.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Description -->
+    <mat-form-field appearance="outline">
+      <mat-label>Description (Optional)</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="transactionForm.invalid" (click)="onSubmit()">Save</button>
+</div>

@@ -1,0 +1,63 @@
+<div class="container">
+  <h1>My Transactions</h1>
+
+  <!-- We will add filter and search controls here later -->
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.date | date:'shortDate' }}</td>
+      </ng-container>
+
+      <!-- Title Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+        <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+      </ng-container>
+
+      <!-- Category Column -->
+      <ng-container matColumnDef="categoryName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+        <td mat-cell *matCellDef="let element">{{ element.categoryName }}</td>
+      </ng-container>
+
+      <!-- Amount Column -->
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
+        <td mat-cell *matCellDef="let element" [ngClass]="element.type === 0 ? 'income' : 'expense'">
+          {{ (element.type === 0 ? '+' : '-') + (element.amount | currency:'USD') }}
+        </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let element">{{ element.status === 0 ? 'Cleared' : 'Pending' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button color="primary" (click)="openEditTransactionDialog(element)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="onDeleteTransaction(element.id)">
+    <mat-icon>delete</mat-icon>
+  </button>
+    </td>
+  </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+  <button mat-fab color="primary" class="fab-bottom-right" (click)="openAddTransactionDialog()">
+  <mat-icon>add</mat-icon>
+</button>
+</div>
+

@@ -1,0 +1,83 @@
+<!-- This wrapper will only render its content when the summary$ observable has emitted a value (is not null) -->
+<div class="dashboard-container" *ngIf="summary$ | async as summary">
+
+  <!-- ROW 1: Key Metric Cards -->
+  <div class="card-row">
+    <mat-card class="metric-card">
+      <mat-card-header>
+        <mat-card-title>Total Income</mat-card-title>
+        <mat-card-subtitle>This Month (Cleared)</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="income">
+        <!-- The currency pipe formats the number as currency -->
+        <p>{{ summary.totalIncome | currency:'USD':'symbol':'1.2-2' }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="metric-card">
+      <mat-card-header>
+        <mat-card-title>Total Expenses</mat-card-title>
+        <mat-card-subtitle>This Month (Cleared)</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="expense">
+        <p>{{ summary.totalExpenses | currency:'USD':'symbol':'1.2-2' }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="metric-card">
+      <mat-card-header>
+        <mat-card-title>Net Balance</mat-card-title>
+        <mat-card-subtitle>Income - Expenses</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content [ngClass]="summary.netBalance >= 0 ? 'income' : 'expense'">
+        <p>{{ summary.netBalance | currency:'USD':'symbol':'1.2-2' }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- ROW 2: List and Summary Cards -->
+  <div class="card-row">
+    <mat-card class="list-card">
+      <mat-card-header>
+        <mat-card-title>Top 5 Spending Categories</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item *ngFor="let category of summary.topSpendingCategories">
+            <span matListItemTitle>{{ category.categoryName }}</span>
+            <span matListItemLine>{{ category.totalAmount | currency:'USD' }}</span>
+          </mat-list-item>
+          <p *ngIf="summary.topSpendingCategories.length === 0">No expenses recorded this month.</p>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="list-card">
+      <mat-card-header>
+        <mat-card-title>Budget Summary</mat-card-title>
+        <mat-card-subtitle>This Month</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <mat-icon matListItemIcon class="budget-icon over">error</mat-icon>
+            <span matListItemTitle>Over Budget: {{ summary.budgetSummary.overBudget }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListItemIcon class="budget-icon near">warning</mat-icon>
+            <span matListItemTitle>Near Budget (>80%): {{ summary.budgetSummary.nearBudget }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListItemIcon class="budget-icon under">check_circle</mat-icon>
+            <span matListItemTitle>Under Budget: {{ summary.budgetSummary.underBudget }}</span>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<!-- Show a loading spinner while the data is being fetched -->
+<div class="loading-shade" *ngIf="!(summary$ | async)">
+  <mat-spinner></mat-spinner>
+</div>

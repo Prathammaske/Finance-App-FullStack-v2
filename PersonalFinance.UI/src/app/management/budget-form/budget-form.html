@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>{{ dialogTitle }}</h1>
+
+<div mat-dialog-content>
+  <form [formGroup]="budgetForm" class="budget-form">
+    <!-- Category Dropdown -->
+    <mat-form-field appearance="outline">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="categoryId" required>
+        <mat-option *ngFor="let category of categories$ | async" [value]="category.id">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Amount -->
+    <mat-form-field appearance="outline">
+      <mat-label>Amount</mat-label>
+      <input matInput formControlName="amount" type="number" placeholder="0.00" required>
+    </mat-form-field>
+
+    <!-- Month Dropdown -->
+    <mat-form-field appearance="outline">
+      <mat-label>Month</mat-label>
+      <mat-select formControlName="month" required>
+        <mat-option *ngFor="let month of months" [value]="month.value">
+          {{ month.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Year -->
+    <mat-form-field appearance="outline">
+      <mat-label>Year</mat-label>
+      <input matInput formControlName="year" type="number" placeholder="YYYY" required>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="budgetForm.invalid" (click)="onSubmit()">Save</button>
+</div>

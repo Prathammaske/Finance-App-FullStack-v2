@@ -1,0 +1,25 @@
+<div class="container">
+  <h1>Management</h1>
+  <mat-tab-group>
+    <mat-tab label="Categories">
+      <!-- The content for the first tab -->
+      <ng-template matTabContent>
+        <app-category-list></app-category-list>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Accounts">
+      <!-- The content for the second tab -->
+      <ng-template matTabContent>
+        <app-account-list></app-account-list>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Budgets">
+      <!-- The content for the third tab -->
+      <ng-template matTabContent>
+        <app-budget-list></app-budget-list>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>
