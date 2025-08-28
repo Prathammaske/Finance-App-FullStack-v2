@@ -3,21 +3,55 @@
 }
 
 .sidenav {
-  width: 200px;
+  width: 260px;
+  background-color: var(--surface-color); // White background
+  border-right: 1px solid var(--border-color); // Subtle border
 }
 
-mat-toolbar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
+.sidenav-header {
+  height: 63px; // Aligns with the 64px standard toolbar height
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--primary-color); // Your Primary Blue for the title
+  border-bottom: 1px solid var(--border-color);
+}
+
+.main-toolbar {
+  background-color: var(--surface-color); // White toolbar for a minimal look
+  color: var(--text-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .spacer {
   flex: 1 1 auto;
 }
 
-mat-nav-list a {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+// Styling for the navigation links in the Sidenav
+.mat-nav-list a {
+  margin: 8px 16px;
+  border-radius: 8px;
+  color: var(--secondary-color); // Your Muted Gray for inactive links
+  font-weight: 500;
+
+  mat-icon {
+    margin-right: 16px;
+  }
+
+  // Style for the currently active route
+  &.active {
+    background-color: rgba(13, 110, 253, 0.1); // Your Primary Blue with low opacity
+    color: var(--primary-color);
+  }
+
+  // A subtle hover effect for all non-active links
+  &:hover:not(.active) {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.main-content {
+  padding: 24px; // Adds consistent padding to the main content area for all pages
 }

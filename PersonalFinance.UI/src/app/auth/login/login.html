@@ -1,37 +1,40 @@
 <div class="login-container">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Sign In</mat-card-title>
-    </mat-card-header>
+  <div class="login-box">
+    <div class="login-header">
+      <mat-icon>savings</mat-icon>
+      <h1>Clarity Finance</h1>
+      <p>Sign in to manage your finances</p>
+    </div>
 
-    <mat-card-content>
-      <!-- This form is linked to the 'loginForm' FormGroup in our .ts file -->
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" required>
+        <!-- Add error messages for better UX -->
+        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+          Email is required
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+          Please enter a valid email address
+        </mat-error>
+      </mat-form-field>
 
-        <!-- Email Input -->
-        <mat-form-field appearance="outline">
-          <mat-label>Email</mat-label>
-          <input matInput formControlName="email" type="email" placeholder="Enter your email">
-          <!-- We can add error messages here later -->
-        </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password" required>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+          Password is required
+        </mat-error>
+      </mat-form-field>
 
-        <!-- Password Input -->
-        <mat-form-field appearance="outline">
-          <mat-label>Password</mat-label>
-          <input matInput formControlName="password" type="password" placeholder="Enter your password">
-        </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
+        Login
+      </button>
+    </form>
 
-        <!-- Submit Button -->
-        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
-          Login
-        </button>
-
-      </form>
-    </mat-card-content>
-
-    <mat-card-actions align="end">
-      <!-- We will link this to the register page later -->
-      <a routerLink="/register">Don't have an account? Sign Up</a>
-    </mat-card-actions>
-  </mat-card>
+    <div class="register-link">
+      <span>Don't have an account?</span>
+      <a routerLink="/register">Sign Up</a>
+    </div>
+  </div>
 </div>
