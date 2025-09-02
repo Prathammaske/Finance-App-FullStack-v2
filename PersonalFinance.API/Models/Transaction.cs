@@ -13,7 +13,7 @@ namespace PersonalFinance.API.Models
         public TransactionType Type { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(18, 2)")] // Crucial for financial data
+        [Column(TypeName = "decimal(18, 2)")] 
         public decimal Amount { get; set; }
 
         [Required]

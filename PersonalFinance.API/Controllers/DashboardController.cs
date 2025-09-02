@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PersonalFinance.API.Data;
 using PersonalFinance.API.DTOs.Dashboard;
-using PersonalFinance.API.Extensions; // <-- Import our extension methods
+using PersonalFinance.API.Extensions; 
 using PersonalFinance.API.Models;
 using System.Security.Claims;
 
@@ -47,6 +47,7 @@ public class DashboardController : ControllerBase
         var topSpendingCategories = await _context.Transactions
             .Where(t => t.UserId == userId && t.Date >= startDate && t.Date <= endDate && t.Type == TransactionType.Expense && t.Status == TransactionStatus.Cleared)
             .Include(t => t.Category)
+            .Where(t => t.Category != null)
             .GroupBy(t => t.Category!.Name)
             .Select(g => new CategorySpending
             {
@@ -57,7 +58,7 @@ public class DashboardController : ControllerBase
             .Take(5)
             .ToListAsync();
 
-        // 3. Budget Utilization
+        
         var budgets = await _context.Budgets
             .Where(b => b.UserId == userId && b.Year == startDate.Year && b.Month == startDate.Month)
             .ToListAsync();
@@ -77,7 +78,7 @@ public class DashboardController : ControllerBase
             else budgetSummary.UnderBudget++;
         }
 
-        // 4. Assemble the DTO
+        
         var dashboardDto = new DashboardDto
         {
             TotalIncome = totalIncome,

@@ -4,5 +4,6 @@ namespace PersonalFinance.API.Models
 {
     public class ApplicationUser : IdentityUser
     {
+       
     }
 }

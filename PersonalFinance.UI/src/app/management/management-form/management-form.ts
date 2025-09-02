@@ -30,7 +30,7 @@ export class ManagementFormComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
-      // Return the form value, the dialog opener will handle saving it
+      
       this.dialogRef.close(this.form.value);
     }
   }

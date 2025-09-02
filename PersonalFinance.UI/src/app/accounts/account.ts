@@ -7,7 +7,7 @@ export interface CreateOrUpdateAccount { name: string; }
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
-  private apiUrl = 'https://localhost:7244/api/accounts';
+  private apiUrl = 'api/accounts';
   constructor(private http: HttpClient) { }
   private getAuthHeaders = () => new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('authToken')}`);
 

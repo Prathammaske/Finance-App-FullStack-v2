@@ -7,7 +7,7 @@ export interface CreateOrUpdateCategory { name: string; }
 
 @Injectable({ providedIn: 'root' })
 export class CategoryService {
-  private apiUrl = 'https://localhost:7244/api/categories';
+  private apiUrl = '/api/categories';
   constructor(private http: HttpClient) { }
   private getAuthHeaders = () => new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('authToken')}`);
 

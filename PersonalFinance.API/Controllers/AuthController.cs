@@ -14,7 +14,6 @@ public class AuthController : ControllerBase
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IConfiguration _configuration;
 
-    // We inject the services we need via the constructor
     public AuthController(UserManager<ApplicationUser> userManager, IConfiguration configuration)
     {
         _userManager = userManager;
@@ -53,26 +52,37 @@ public class AuthController : ControllerBase
     {
         var user = await _userManager.FindByEmailAsync(loginDto.Email!);
 
-        // Check if user exists AND if the password is correct
         if (user != null && await _userManager.CheckPasswordAsync(user, loginDto.Password!))
         {
-            var tokenString = GenerateJwtToken(user);
+            // The 'await' is needed because GenerateJwtToken now fetches roles asynchronously
+            var tokenString = await GenerateJwtToken(user);
 
+            // Return the single access token
             return Ok(new AuthResponseDto { IsSuccess = true, Token = tokenString, Message = "Login successful" });
         }
 
         return Unauthorized(new AuthResponseDto { IsSuccess = false, Message = "Invalid credentials" });
     }
 
-    private string GenerateJwtToken(ApplicationUser user)
+    // This method must be 'async Task<string>' to use 'await' for getting roles
+    private async Task<string> GenerateJwtToken(ApplicationUser user)
     {
-        // The claims are the pieces of data we want to store in the token
-        var claims = new[]
+        // Use a List<Claim> so we can add the role claims to it
+        var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id),
             new Claim(ClaimTypes.Email, user.Email!),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
+
+        // Get the user's roles from the database
+        var userRoles = await _userManager.GetRolesAsync(user);
+
+        // Add a role claim for each role the user has
+        foreach (var userRole in userRoles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, userRole));
+        }
 
         var jwtKey = _configuration["Jwt:Key"]!;
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
@@ -80,7 +90,7 @@ public class AuthController : ControllerBase
         var token = new JwtSecurityToken(
             issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
-            expires: DateTime.UtcNow.AddHours(1), // Token is valid for 1 hour
+            expires: DateTime.UtcNow.AddHours(3), // Set a reasonable expiration for the access token
             claims: claims,
             signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
         );

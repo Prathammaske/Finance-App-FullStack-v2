@@ -11,7 +11,7 @@ import { MaterialModule } from '../../material/material-module';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MaterialModule, RouterLink],
   templateUrl: './register.html',
-  styleUrls: ['./register.scss'] // You can reuse login.scss or create a new one
+  styleUrls: ['./register.scss']
 })
 export class RegisterComponent {
   registerForm: FormGroup;

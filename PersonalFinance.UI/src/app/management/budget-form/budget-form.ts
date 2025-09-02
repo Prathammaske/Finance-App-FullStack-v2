@@ -70,7 +70,7 @@ export class BudgetFormComponent implements OnInit {
       next: () => this.dialogRef.close(true),
       error: (err: any) => {
       console.error('Error saving budget', err);
-      // Try to get a meaningful message, otherwise show a generic one
+      
       const errorMessage = err.error?.message || 'An unexpected error occurred. Please try again.';
       this.snackBar.open(errorMessage, 'Close', {
         duration: 5000,

@@ -1,12 +1,13 @@
-﻿using AutoMapper; // <-- Add this
+﻿using AutoMapper; 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore; // <-- Add this
+using Microsoft.EntityFrameworkCore; 
 using PersonalFinance.API.Data;
 using PersonalFinance.API.DTOs.Transaction;
 using PersonalFinance.API.Models;
 using System.Security.Claims;
+namespace PersonalFinance.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -15,12 +16,12 @@ public class TransactionsController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IMapper _mapper; // <-- Inject IMapper
+    private readonly IMapper _mapper; 
 
     public TransactionsController(
         ApplicationDbContext context,
         UserManager<ApplicationUser> userManager,
-        IMapper mapper) // <-- Add IMapper to constructor
+        IMapper mapper) 
     {
         _context = context;
         _userManager = userManager;
@@ -33,15 +34,14 @@ public class TransactionsController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        // This is our most complex query yet
+        
         var transactionsFromDb = await _context.Transactions
-            .Include(t => t.Category) // <-- Eager Loading (EF Core Join)
-            .Include(t => t.Account)  // <-- Eager Loading (EF Core Join)
+            .Include(t => t.Category) 
+            .Include(t => t.Account)  
             .Where(t => t.UserId == userId)
-            .OrderByDescending(t => t.Date) // Show newest first
+            .OrderByDescending(t => t.Date)
             .ToListAsync();
 
-        // Use AutoMapper to convert the list of database models to a list of DTOs
         var transactionsDto = _mapper.Map<IEnumerable<TransactionDto>>(transactionsFromDb);
 
         return Ok(transactionsDto);
@@ -56,7 +56,7 @@ public class TransactionsController : ControllerBase
         var transactionFromDb = await _context.Transactions
             .Include(t => t.Category)
             .Include(t => t.Account)
-            // Securely find by Id AND UserId
+            // find by Id AND UserId
             .FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
 
         if (transactionFromDb == null)
@@ -73,8 +73,7 @@ public class TransactionsController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        // --- Crucial Validation Step ---
-        // Check if the provided Category and Account exist AND belong to the user
+       
         var categoryExists = await _context.Categories.AnyAsync(c => c.Id == transactionDto.CategoryId && c.UserId == userId);
         var accountExists = await _context.Accounts.AnyAsync(a => a.Id == transactionDto.AccountId && a.UserId == userId);
 
@@ -82,7 +81,7 @@ public class TransactionsController : ControllerBase
         {
             return BadRequest("Invalid Category or Account ID.");
         }
-        // --- End Validation ---
+        
 
         var transaction = new Transaction
         {
@@ -100,8 +99,7 @@ public class TransactionsController : ControllerBase
         await _context.Transactions.AddAsync(transaction);
         await _context.SaveChangesAsync();
 
-        // We can't use AutoMapper here easily because the created object doesn't have Category/Account loaded.
-        // The simplest way is to return the result of the GetTransactionById endpoint.
+        
         return CreatedAtAction(nameof(GetTransactionById), new { id = transaction.Id }, transaction);
     }
 
@@ -119,7 +117,7 @@ public class TransactionsController : ControllerBase
             return NotFound();
         }
 
-        // --- Re-validate Category and Account ownership ---
+        
         var categoryExists = await _context.Categories.AnyAsync(c => c.Id == transactionDto.CategoryId && c.UserId == userId);
         var accountExists = await _context.Accounts.AnyAsync(a => a.Id == transactionDto.AccountId && a.UserId == userId);
 
@@ -127,7 +125,7 @@ public class TransactionsController : ControllerBase
         {
             return BadRequest("Invalid Category or Account ID.");
         }
-        // --- End Validation ---
+       
 
         // Update properties
         transaction.Type = transactionDto.Type;

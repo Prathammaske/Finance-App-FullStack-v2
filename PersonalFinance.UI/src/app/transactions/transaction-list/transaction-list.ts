@@ -22,13 +22,13 @@ import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dial
   styleUrls: ['./transaction-list.scss']
 })
 export class TransactionListComponent implements OnInit, AfterViewInit {
-  // Columns to display in the table. The names must match the 'matColumnDef' in the HTML.
+  
   displayedColumns: string[] = ['date', 'title', 'categoryName', 'amount', 'status', 'actions'];
   
-  // The data source for the table
+ 
   dataSource = new MatTableDataSource<Transaction>();
 
-  // Using @ViewChild to get a reference to the sort and paginator components from the template
+  
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -44,12 +44,12 @@ export class TransactionListComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      // Only proceed if the user clicked "Yes" (result is true)
+      
       if (result) {
         this.transactionService.deleteTransaction(id).subscribe({
           next: () => {
-            this.loadTransactions(); // Refresh the table
-            // Optionally, show a success snackbar here
+            this.loadTransactions(); 
+            
           },
           error: (err) => console.error('Error deleting transaction:', err)
         });
@@ -62,7 +62,7 @@ export class TransactionListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // After the view has been initialized, we can connect the sort and paginator to the data source
+    
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
@@ -79,27 +79,27 @@ export class TransactionListComponent implements OnInit, AfterViewInit {
    openAddTransactionDialog(): void {
     const dialogRef = this.dialog.open(TransactionFormComponent, {
       width: '500px',
-      data: { transaction: null } // We pass null for 'create' mode
+      data: { transaction: null } 
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      // If the dialog returned a result (meaning a transaction was created)
+      
       if (result) {
-        this.loadTransactions(); // Reload the table data
+        this.loadTransactions();
       }
     });
   }
   openEditTransactionDialog(transaction: Transaction): void {
   const dialogRef = this.dialog.open(TransactionFormComponent, {
     width: '500px',
-    // We pass the transaction data of the clicked row to the dialog
+    
     data: { transaction: transaction }
   });
 
   dialogRef.afterClosed().subscribe(result => {
-    // If the dialog returns a result, it means the form was submitted successfully
+    
     if (result) {
-      this.loadTransactions(); // Reload the table to show the updated data
+      this.loadTransactions();
     }
   });
 }

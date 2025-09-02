@@ -1,13 +1,12 @@
-/* --- Global CSS Variables & Styles --- */
+
 :root {
-  // Your chosen color palette
+  
   --background-color: #F8F9FA;
-  --primary-color: #0D6EFD;    // Bootstrap Blue
-  --secondary-color: #6C757D;  // Muted Gray
-  --accent-color: #20C997;     // Teal
-  --text-color: #212529;      // Dark Gray-Black
-  --surface-color: #ffffff;   // White for cards, sidenav, etc.
-  --border-color: #dee2e6;    // A light border for separation
+  --secondary-color: #6C757D;  
+  --accent-color: #20C997;    
+  --text-color: #212529;      
+  --surface-color: #ffffff;   
+  --border-color: #dee2e6;    
   --income-color: #198754;
   --expense-color: #DC3545;
 }
@@ -20,21 +19,19 @@ html, body {
   color: var(--text-color);
 }
 
-/* --- Global Component Overrides --- */
 
-// Override the color of primary raised buttons
 .mat-mdc-raised-button.mat-primary {
   background-color: var(--primary-color);
-  color: #ffffff; // Set text color to white for contrast
+  color: #ffffff;
 }
 
-// Override the color of accent FABs
+
 .mat-mdc-fab.mat-accent {
   background-color: var(--accent-color);
   color: #ffffff;
 }
 
-// Custom styling for our error snackbar.
+
 .error-snackbar {
   background-color: var(--expense-color);
   color: #ffffff;

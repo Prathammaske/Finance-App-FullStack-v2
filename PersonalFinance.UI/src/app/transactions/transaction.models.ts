@@ -1,4 +1,4 @@
-// Enums to make our code more readable
+
 export enum TransactionType {
   Income,
   Expense
@@ -9,13 +9,12 @@ export enum TransactionStatus {
   Pending
 }
 
-// Interface for a transaction being displayed (Read DTO)
 export interface Transaction {
   id: number;
   type: TransactionType;
   amount: number;
   title: string;
-  description?: string; // Optional property
+  description?: string; 
   date: Date;
   status: TransactionStatus;
   categoryName: string;
@@ -24,7 +23,7 @@ export interface Transaction {
   accountId: number;
 }
 
-// Interface for creating/updating a transaction (Write DTO)
+
 export interface CreateOrUpdateTransaction {
   type: TransactionType;
   amount: number;

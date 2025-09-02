@@ -36,7 +36,7 @@ export class AccountListComponent implements OnInit {
   openForm(item?: Account): void {
     const dialogRef = this.dialog.open(ManagementFormComponent, {
       width: '400px',
-      data: { item, type: 'Account' } // <-- The only change is we pass 'Account' as the type
+      data: { item, type: 'Account' } 
     });
 
     dialogRef.afterClosed().subscribe(result => {

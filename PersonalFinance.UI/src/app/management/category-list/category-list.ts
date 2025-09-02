@@ -4,8 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MaterialModule } from '../../material/material-module';
 import { Category, CategoryService } from '../../categories/category';
-// We will create this form component next
-// import { CategoryFormComponent } from '../category-form/category-form';
+
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog';
 import { ManagementFormComponent } from '../management-form/management-form';
 
@@ -35,22 +34,22 @@ export class CategoryListComponent implements OnInit {
     });
   }
   
-  // We will uncomment and build this functionality in a later step
+  
   
   openForm(item?: Category): void {
-  const dialogRef = this.dialog.open(ManagementFormComponent, { // <-- Use the correct component name
+  const dialogRef = this.dialog.open(ManagementFormComponent, {
     width: '400px',
-    data: { item, type: 'Category' } // Pass the item and its type
+    data: { item, type: 'Category' } 
   });
 
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
-      // Determine if we are creating or updating
+      
       const saveObservable = item
         ? this.categoryService.updateCategory(item.id, result)
         : this.categoryService.createCategory(result);
       
-      // After the save operation completes, reload the data
+      
       saveObservable.subscribe(() => this.loadCategories());
     }
   });
@@ -65,10 +64,10 @@ deleteItem(id: number): void {
   });
 
   dialogRef.afterClosed().subscribe(result => {
-    // If the user clicked "Yes", the result will be true
+    
     if (result) {
       this.categoryService.deleteCategory(id).subscribe(() => {
-        // After successful deletion, reload the categories
+        
         this.loadCategories();
       });
     }

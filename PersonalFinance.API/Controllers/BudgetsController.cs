@@ -30,12 +30,12 @@ public class BudgetsController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        // Start building the query
+        
         var query = _context.Budgets
-            .Include(b => b.Category) // Join with Category to get the name
+            .Include(b => b.Category) 
             .Where(b => b.UserId == userId);
 
-        // Optional filtering by month and year
+       
         if (month.HasValue)
         {
             query = query.Where(b => b.Month == month.Value);
@@ -88,7 +88,7 @@ public class BudgetsController : ControllerBase
         await _context.Budgets.AddAsync(budget);
         await _context.SaveChangesAsync();
 
-        // Load the related category to return the full DTO
+        
         await _context.Entry(budget).Reference(b => b.Category).LoadAsync();
         var budgetToReturn = _mapper.Map<BudgetDto>(budget);
 
@@ -109,9 +109,7 @@ public class BudgetsController : ControllerBase
             return NotFound();
         }
 
-        // You might want to prevent changing the Category/Month/Year of a budget.
-        // For simplicity here, we'll just update the amount.
-        // If they could be changed, you'd need the same duplicate check as in the Create method.
+        
         budget.Amount = budgetDto.Amount;
 
         await _context.SaveChangesAsync();

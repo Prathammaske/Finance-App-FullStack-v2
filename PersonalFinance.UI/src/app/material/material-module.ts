@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-
-// Import and export the Angular Material modules
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
+import { LayoutModule } from '@angular/cdk/layout'; 
 @NgModule({
   exports: [
     MatToolbarModule,
@@ -38,7 +37,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatTabsModule
+    MatTabsModule,
+    LayoutModule 
   ]
 })
 export class MaterialModule { }

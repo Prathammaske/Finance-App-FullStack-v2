@@ -11,7 +11,7 @@ import { BudgetListComponent } from '../budget-list/budget-list';
   imports: [
     CommonModule,
     MaterialModule,
-    CategoryListComponent, // Import the components to be used in the template
+    CategoryListComponent, 
     AccountListComponent,
     BudgetListComponent
   ],

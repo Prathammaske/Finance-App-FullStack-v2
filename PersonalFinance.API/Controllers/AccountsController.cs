@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PersonalFinance.API.Data;
-using PersonalFinance.API.DTOs.Account; // Changed to use Account DTOs
+using PersonalFinance.API.DTOs.Account; 
 using PersonalFinance.API.Models;
 using System.Security.Claims;
 [Route("api/[controller]")]
 [ApiController]
-[Authorize] // Secure the entire controller
+[Authorize] 
 public class AccountsController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
@@ -25,9 +25,9 @@ public class AccountsController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        var accounts = await _context.Accounts // Querying Accounts table
-            .Where(a => a.UserId == userId) // Filter by user
-            .Select(a => new AccountDto // Map to AccountDto
+        var accounts = await _context.Accounts 
+            .Where(a => a.UserId == userId) 
+            .Select(a => new AccountDto 
             {
                 Id = a.Id,
                 Name = a.Name!
@@ -43,10 +43,10 @@ public class AccountsController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        var account = new Account // Create an Account model
+        var account = new Account 
         {
             Name = accountDto.Name,
-            UserId = userId // Assign ownership
+            UserId = userId 
         };
 
         await _context.Accounts.AddAsync(account);
@@ -67,7 +67,7 @@ public class AccountsController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        // Securely find the account by Id AND UserId
+        
         var account = await _context.Accounts
             .FirstOrDefaultAsync(a => a.Id == id && a.UserId == userId);
 

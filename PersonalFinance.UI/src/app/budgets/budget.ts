@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-// Define the data shapes (interfaces) in the same file for simplicity
+
 export interface Budget {
   id: number;
   amount: number;
@@ -23,7 +23,7 @@ export interface CreateOrUpdateBudget {
   providedIn: 'root'
 })
 export class BudgetService {
-  private apiUrl = 'https://localhost:7244/api/budgets'; // Use your backend port
+  private apiUrl = '/api/budgets'; 
 
   constructor(private http: HttpClient) { }
 

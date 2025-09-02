@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize] // Protection for the entire controller
+[Authorize] 
 public class CategoriesController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
@@ -55,14 +55,14 @@ public class CategoriesController : ControllerBase
         await _context.Categories.AddAsync(category);
         await _context.SaveChangesAsync();
 
-        // Map the created category back to a DTO to return it
+        
         var categoryToReturn = new CategoryDto
         {
             Id = category.Id,
             Name = category.Name
         };
 
-        // Return a 201 Created response, a standard RESTful practice
+        
         return CreatedAtAction(nameof(GetCategories), new { id = category.Id }, categoryToReturn);
     }
 
@@ -72,21 +72,20 @@ public class CategoriesController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        // IMPORTANT: Find the category by its ID AND the user's ID
+       
         var category = await _context.Categories
             .FirstOrDefaultAsync(c => c.Id == id && c.UserId == userId);
 
         if (category == null)
         {
-            // If it's not found, the user either doesn't own it or it doesn't exist.
-            // In either case, it's "Not Found" for them.
+           
             return NotFound();
         }
 
         category.Name = categoryDto.Name;
         await _context.SaveChangesAsync();
 
-        // 204 No Content is a standard successful response for an update
+        
         return NoContent();
     }
 
@@ -96,7 +95,7 @@ public class CategoriesController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        // Same security check as PUT
+       
         var category = await _context.Categories
             .FirstOrDefaultAsync(c => c.Id == id && c.UserId == userId);
 

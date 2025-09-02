@@ -40,18 +40,18 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response: any) => {
           console.log('Login successful!', response);
-           // Store the token
+           
           localStorage.setItem('authToken',response.token)
-          //Navigate to the main application page (dashboard)
+          
           this.router.navigate(['/']);
         },
         error: (err: any) => {
           console.error('Login failed:', err);
-                    // USE THE SNACKBAR TO SHOW A USER-FRIENDLY MESSAGE
+                    
           this.snackBar.open('Login Failed: Invalid email or password.', 'Close', {
-            duration: 5000, // Message disappears after 5 seconds
-            verticalPosition: 'top', // Show it at the top of the screen
-            panelClass: ['error-snackbar'] // Optional: for custom styling
+            duration: 5000, 
+            verticalPosition: 'top',
+            panelClass: ['error-snackbar'] 
           });
 
         }

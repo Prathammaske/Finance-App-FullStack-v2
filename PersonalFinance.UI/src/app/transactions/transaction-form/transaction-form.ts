@@ -35,7 +35,7 @@ export class TransactionFormComponent implements OnInit {
     public dialogRef: MatDialogRef<TransactionFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { transaction: Transaction | null }
   ) {
-    // Determine the title and mode based on whether transaction data was passed
+    
     this.isEditMode = !!this.data.transaction;
     this.dialogTitle = this.isEditMode ? 'Edit Transaction' : 'Add New Transaction';
 
@@ -55,7 +55,7 @@ export class TransactionFormComponent implements OnInit {
     this.categories$ = this.categoryService.getCategories();
     this.accounts$ = this.accountService.getAccounts();
 
-    // If we are in edit mode, pre-fill the form with the transaction's data
+    
     if (this.isEditMode) {
       this.transactionForm.patchValue(this.data.transaction!);
     }
@@ -70,26 +70,26 @@ export class TransactionFormComponent implements OnInit {
     let saveObservable: Observable<any>;
 
     if (this.isEditMode) {
-      // If we are editing, call the update service method
+      
       saveObservable = this.transactionService.updateTransaction(this.data.transaction!.id, transactionData);
     } else {
-      // Otherwise, call the create service method
+      
       saveObservable = this.transactionService.createTransaction(transactionData);
     }
 
     saveObservable.subscribe({
       next: (response) => {
-        // Close the dialog and pass back a 'true' signal to indicate success
+        
         this.dialogRef.close(true);
       },
       error: (err) => {
         console.error('Error saving transaction:', err);
-        // Here you could show a snackbar for the error
+       
       }
     });
   }
 
   onCancel(): void {
-    this.dialogRef.close(); // Close the dialog, returning no data
+    this.dialogRef.close(); 
   }
 }

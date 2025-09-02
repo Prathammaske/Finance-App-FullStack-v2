@@ -12,8 +12,11 @@ namespace PersonalFinance.API.DTOs.Transaction
         public DateTime Date { get; set; }
         public TransactionStatus Status { get; set; }
 
-        // We want to show the NAMES, not the IDs
+        
         public string CategoryName { get; set; } = string.Empty;
         public string AccountName { get; set; } = string.Empty;
+
+        public int CategoryId { get; set; }
+        public int AccountId { get; set; }
     }
 }

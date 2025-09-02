@@ -19,7 +19,7 @@ import { Observable, of } from 'rxjs';
 export class DashboardPageComponent implements OnInit {
   public summary$: Observable<DashboardSummary | null> = of(null);
 
-  // The error occurs because of this constructor parameter
+
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit(): void {
