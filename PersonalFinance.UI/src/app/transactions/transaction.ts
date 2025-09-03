@@ -36,4 +36,10 @@ export class TransactionService {
   deleteTransaction(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
   }
+  exportTransactions(): Observable<Blob> {
+  return this.http.get(`${this.apiUrl}/export`, {
+    headers: this.getAuthHeaders(),
+    responseType: 'blob' // This is crucial for file downloads
+  });
+}
 }

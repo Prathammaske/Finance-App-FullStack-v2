@@ -1,12 +1,11 @@
-
 :root {
-  
   --background-color: #F8F9FA;
-  --secondary-color: #6C757D;  
-  --accent-color: #20C997;    
-  --text-color: #212529;      
-  --surface-color: #ffffff;   
-  --border-color: #dee2e6;    
+  --primary-color: #0D6EFD;
+  --secondary-color: #6C757D;
+  --accent-color: #20C997;
+  --text-color: #212529;
+  --surface-color: #ffffff;
+  --border-color: #dee2e6;
   --income-color: #198754;
   --expense-color: #DC3545;
 }
@@ -19,18 +18,15 @@ html, body {
   color: var(--text-color);
 }
 
-
 .mat-mdc-raised-button.mat-primary {
   background-color: var(--primary-color);
   color: #ffffff;
 }
 
-
 .mat-mdc-fab.mat-accent {
   background-color: var(--accent-color);
   color: #ffffff;
 }
-
 
 .error-snackbar {
   background-color: var(--expense-color);

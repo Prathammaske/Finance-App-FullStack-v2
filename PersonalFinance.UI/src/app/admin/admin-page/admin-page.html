@@ -1,0 +1,13 @@
+<div class="container">
+  <h1>Admin - System Health</h1>
+  <div *ngIf="healthStatus$ | async as health; else loading">
+    <mat-card>
+      <mat-card-content>
+        <p><strong>Status:</strong> {{ health.status }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <ng-template #loading>
+    <mat-spinner></mat-spinner>
+  </ng-template>
+</div>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams  } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
@@ -32,8 +32,14 @@ export class BudgetService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  getBudgets(): Observable<Budget[]> {
-    return this.http.get<Budget[]>(this.apiUrl, { headers: this.getAuthHeaders() });
+   getBudgets(month?: number, year?: number): Observable<Budget[]> {
+    let params = new HttpParams();
+    if (month && year) {
+      params = params.set('month', month.toString());
+      params = params.set('year', year.toString());
+    }
+    // Pass the params object to the request.
+    return this.http.get<Budget[]>(this.apiUrl, { headers: this.getAuthHeaders(), params: params });
   }
 
   createBudget(data: CreateOrUpdateBudget): Observable<Budget> {

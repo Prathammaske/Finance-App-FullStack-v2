@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,28 +18,33 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { LayoutModule } from '@angular/cdk/layout'; 
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+const materialModules = [
+  LayoutModule,
+  MatToolbarModule,
+  MatSidenavModule,
+  MatIconModule,
+  MatButtonModule,
+  MatListModule,
+  MatSnackBarModule,
+  MatCardModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatProgressSpinnerModule,
+  MatTableModule,
+  MatSortModule,
+  MatPaginatorModule,
+  MatDialogModule,
+  MatSelectModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatTabsModule,
+  MatTooltipModule
+];
+
 @NgModule({
-  exports: [
-    MatToolbarModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatButtonModule,
-    MatListModule,
-    MatSnackBarModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-     MatProgressSpinnerModule,
-      MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatTabsModule,
-    LayoutModule 
-  ]
+  imports: [...materialModules],
+  exports: [...materialModules]
 })
 export class MaterialModule { }

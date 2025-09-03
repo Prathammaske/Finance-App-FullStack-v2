@@ -1,20 +1,38 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DashboardSummary } from './dashboard.models';
+import { DashboardSummary, MonthlySpending } from './dashboard.models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
-  private apiUrl = '/api/dashboard';
+  private dashboardApiUrl = '/api/dashboard';
+  private notificationsApiUrl = '/api/notifications';
 
   constructor(private http: HttpClient) { }
 
-  getDashboardSummary(): Observable<DashboardSummary> {
+  private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('authToken');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
 
-    return this.http.get<DashboardSummary>(this.apiUrl, { headers });
+  getDashboardSummary(month: number, year: number): Observable<DashboardSummary> {
+    const headers = this.getAuthHeaders();
+    const params = new HttpParams()
+      .set('month', month.toString())
+      .set('year', year.toString());
+
+    return this.http.get<DashboardSummary>(this.dashboardApiUrl, { headers, params });
+  }
+
+  getSpendingTrend(): Observable<MonthlySpending[]> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<MonthlySpending[]>(`${this.dashboardApiUrl}/spending-trend`, { headers });
+  }
+
+  triggerNotificationCheck(): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.post(`${this.notificationsApiUrl}/trigger-check`, {}, { headers });
   }
 }

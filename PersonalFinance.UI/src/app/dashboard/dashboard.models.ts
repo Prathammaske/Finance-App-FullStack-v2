@@ -17,3 +17,8 @@ export interface DashboardSummary {
   topSpendingCategories: CategorySpending[];
   budgetSummary: BudgetUtilizationSummary;
 }
+export interface MonthlySpending {
+  year: number;
+  month: number;
+  totalAmount: number;
+}

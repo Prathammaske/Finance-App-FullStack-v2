@@ -1,46 +1,45 @@
- <mat-sidenav-container class="sidenav-container">
- 
- <!-- Sidenav has a simple reference variable #sidenav -->
- <mat-sidenav #sidenav class="sidenav" mode="side" opened>
-   <div class="sidenav-header">
-     Clarity Finance
-   </div>
-   <mat-nav-list>
-     <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
-       <mat-icon matListItemIcon>dashboard</mat-icon>
-       <span>Dashboard</span>
-     </a>
-     <a mat-list-item routerLink="/transactions" routerLinkActive="active">
-       <mat-icon matListItemIcon>receipt_long</mat-icon>
-       <span>Transactions</span>
-     </a>
-     <a mat-list-item routerLink="/management" routerLinkActive="active">
-       <mat-icon matListItemIcon>settings</mat-icon>
-       <span>Management</span>
-     </a>
-   </mat-nav-list>
- </mat-sidenav>
-
- <mat-sidenav-content>
-   <mat-toolbar class="main-toolbar">
-     
-     <button
-       type="button"
-       aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="sidenav.toggle()"
-        class="menu-button">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-      <span class="spacer"></span>
-      <button mat-icon-button (click)="onLogout()" matTooltip="Logout">
-        <mat-icon>logout</mat-icon>
-      </button>
-    </mat-toolbar>
-
-    <main class="main-content">
-      <router-outlet></router-outlet>
-    </main>
-  </mat-sidenav-content>
-
-</mat-sidenav-container> 
+<ng-container *ngIf="isHandset !== undefined">
+  <mat-sidenav-container class="sidenav-container" [class.sidenav-collapsed]="isSidenavCollapsed && !isHandset">
+    <mat-sidenav #sidenav class="sidenav" [mode]="isHandset ? 'over' : 'side'" [opened]="!isHandset">
+      <div class="sidenav-header">
+        <span *ngIf="!isSidenavCollapsed">Clarity Finance</span>
+      </div>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/dashboard" routerLinkActive="active" matTooltip="Dashboard" [matTooltipDisabled]="!isSidenavCollapsed" (click)="closeSidenavOnMobile(sidenav)">
+          <mat-icon matListItemIcon>dashboard</mat-icon>
+          <span *ngIf="!isSidenavCollapsed">Dashboard</span>
+        </a>
+        <a mat-list-item routerLink="/transactions" routerLinkActive="active" matTooltip="Transactions" [matTooltipDisabled]="!isSidenavCollapsed" (click)="closeSidenavOnMobile(sidenav)">
+          <mat-icon matListItemIcon>receipt_long</mat-icon>
+          <span *ngIf="!isSidenavCollapsed">Transactions</span>
+        </a>
+        <a mat-list-item routerLink="/management" routerLinkActive="active" matTooltip="Management" [matTooltipDisabled]="!isSidenavCollapsed" (click)="closeSidenavOnMobile(sidenav)">
+          <mat-icon matListItemIcon>settings</mat-icon>
+          <span *ngIf="!isSidenavCollapsed">Management</span>
+        </a>
+        <a *ngIf="authService.isAdmin()" mat-list-item routerLink="/admin" routerLinkActive="active" matTooltip="Admin" [matTooltipDisabled]="!isSidenavCollapsed" (click)="closeSidenavOnMobile(sidenav)">
+          <mat-icon matListItemIcon>security</mat-icon>
+          <span *ngIf="!isSidenavCollapsed">Admin</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar class="main-toolbar">
+        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleMainSidenav(sidenav)">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <span class="spacer"></span>
+        <button mat-button class="logout-button" (click)="onLogout()">
+          <mat-icon>logout</mat-icon>
+          <span *ngIf="!isHandset">Logout</span>
+        </button>
+      </mat-toolbar>
+      <main class="main-content">
+        <router-outlet></router-outlet>
+      </main>
+      <footer class="app-footer">
+        <p>&copy; 2025 Clarity Finance. All Rights Reserved.</p>
+      </footer>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ng-container>

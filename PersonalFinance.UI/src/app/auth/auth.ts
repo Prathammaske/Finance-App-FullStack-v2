@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +34,32 @@ register(userInfo: any): Observable<any> {
 
     
     this.router.navigate(['/login']);
+  }
+   private decodeToken(): any {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      try {
+        return jwtDecode(token);
+      } catch(Error) {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  getRoles(): string[] | null {
+    const decodedToken = this.decodeToken();
+    if (!decodedToken) return null;
+
+    const roleClaim = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+    if (roleClaim) {
+      return Array.isArray(roleClaim) ? roleClaim : [roleClaim];
+    }
+    return null;
+  }
+
+  isAdmin(): boolean {
+    const roles = this.getRoles();
+    return roles ? roles.includes('Admin') : false;
   }
 }

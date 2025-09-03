@@ -1,5 +1,32 @@
 <!-- This wrapper will only render its content when the summary$ observable has emitted a value (is not null) -->
 <div class="dashboard-container" *ngIf="summary$ | async as summary">
+  <div class="container">
+  <div class="header-bar">
+    <h1>Dashboard</h1>
+    <div class="header-actions">
+      <!-- ADD THE MISSING BUTTON -->
+      <button mat-stroked-button (click)="onCheckNotifications()">
+        <mat-icon>notifications_active</mat-icon>
+        Check for Alerts
+      </button>
+      <div class="filter-controls">
+        <!-- Month Dropdown -->
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>Month</mat-label>
+          <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onFilterChange()">
+            <mat-option *ngFor="let month of months" [value]="month.value">{{ month.viewValue }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- Year Dropdown -->
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>Year</mat-label>
+          <mat-select [(ngModel)]="selectedYear" (selectionChange)="onFilterChange()">
+            <mat-option *ngFor="let year of availableYears" [value]="year">{{ year }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
 
   <!-- ROW 1: Key Metric Cards -->
   <div class="card-row">
@@ -76,6 +103,21 @@
     </mat-card>
   </div>
 </div>
+ <div class="card-row">
+      <mat-card class="chart-card">
+        <mat-card-header>
+          <mat-card-title>6-Month Spending Trend</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-spending-chart></app-spending-chart>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <ng-template #loadingState>
+    <div class="loading-shade"><mat-spinner></mat-spinner></div>
+  </ng-template>
+  
 
 <!-- Show a loading spinner while the data is being fetched -->
 <div class="loading-shade" *ngIf="!(summary$ | async)">

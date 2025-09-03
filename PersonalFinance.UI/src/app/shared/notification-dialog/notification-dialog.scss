@@ -1,0 +1,5 @@
+.mat-mdc-list-item-icon {
+  &.alert { color: var(--expense-color, #DC3545); }
+  &.warning { color: var(--accent-color, #FFC107); } // Using a standard yellow/amber for warning
+  &.reminder { color: var(--primary-color, #0D6EFD); }
+}
