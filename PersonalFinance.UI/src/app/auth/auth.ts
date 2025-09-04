@@ -33,7 +33,7 @@ register(userInfo: any): Observable<any> {
     localStorage.removeItem('authToken');
 
     
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
    private decodeToken(): any {
     const token = localStorage.getItem('authToken');
@@ -61,5 +61,16 @@ register(userInfo: any): Observable<any> {
   isAdmin(): boolean {
     const roles = this.getRoles();
     return roles ? roles.includes('Admin') : false;
+  }
+  getUserName(): string | null {
+    const decodedToken = this.decodeToken();
+    // .NET Identity uses a long schema URL for the name claim
+    return decodedToken ? decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] : null;
+  }
+
+  getUserEmail(): string | null {
+    const decodedToken = this.decodeToken();
+    // And another for the email claim
+    return decodedToken ? decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] : null;
   }
 }

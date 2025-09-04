@@ -1,5 +1,5 @@
 :root {
-  --background-color: #F8F9FA;
+  --background-color: #364c61;
   --primary-color: #0D6EFD;
   --secondary-color: #6C757D;
   --accent-color: #20C997;
@@ -14,8 +14,8 @@ html, body {
   height: 100%;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: var(--background-color);
-  color: var(--text-color);
+  background-color: var(--background-color, #F8F9FA); 
+ color: var(--text-color, #212529);
 }
 
 .mat-mdc-raised-button.mat-primary {
@@ -31,4 +31,39 @@ html, body {
 .error-snackbar {
   background-color: var(--expense-color);
   color: #ffffff;
+}
+
+.mat-mdc-header-cell {
+  color: var(--text-color, #212529); // Use our main dark text color
+  font-weight: 500;
+  font-size: 0.85em;
+  letter-spacing: 0.5px;
+}
+h1 {
+  font-weight: 400;
+  font-size: 1.8em;
+  margin-top: 0;
+  margin-bottom: 24px;
+  color: var(--text-color, #212529);
+}
+
+// Style for all MatTable headers
+.mat-mdc-header-row {
+  background-color: #5f666d; // A very light, cool gray
+}
+.mat-mdc-header-cell {
+  color: var(--text-color, #212529);
+  font-weight: 500;
+}
+body.dashboard-bg, body {
+  background-color: #F8F9FA;
+}
+body.transactions-bg {
+  background-color: #E7F1FF; // Light blue
+}
+body.management-bg {
+  background-color: #E6F9F4; // Light teal
+}
+body.admin-bg {
+  background-color: #F1F3F5; // Cool light gray
 }

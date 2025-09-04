@@ -24,27 +24,37 @@ export class SpendingChartComponent implements OnInit {
       { 
         data: [], 
         label: 'Total Monthly Expenses',
-        backgroundColor: 'var(--accent-color, #20C997)',
-        hoverBackgroundColor: '#1BAA80'
+         backgroundColor: '#0D6EFD', 
+        hoverBackgroundColor: '#0B5ED7' 
       }
     ]
   };
-  public barChartOptions: ChartConfiguration<'bar'>['options'] = {
+   public barChartOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
-      x: {
-        ticks: { color: 'rgba(255, 255, 255, 0.7)' },
-        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+      x: { // X-Axis (Month names)
+        ticks: {
+          color: 'rgba(0, 0, 0, 0.7)' // Dark text color for the labels
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.1)' // Faint dark grid lines
+        }
       },
-      y: {
-        ticks: { color: 'rgba(255, 255, 255, 0.7)' },
-        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+      y: { // Y-Axis (Amount numbers)
+        ticks: {
+          color: 'rgba(0, 0, 0, 0.7)' // Dark text color for the numbers
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.1)'
+        }
       }
     },
     plugins: {
       legend: {
-        labels: { color: 'rgba(255, 255, 255, 0.87)' }
+        labels: {
+          color: 'rgba(0, 0, 0, 0.87)' // Dark text color for the legend
+        }
       }
     }
   };

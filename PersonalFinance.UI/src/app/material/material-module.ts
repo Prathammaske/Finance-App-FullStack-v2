@@ -19,7 +19,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
+import { MatMenuModule } from '@angular/material/menu';
 const materialModules = [
   LayoutModule,
   MatToolbarModule,
@@ -40,7 +40,8 @@ const materialModules = [
   MatDatepickerModule,
   MatNativeDateModule,
   MatTabsModule,
-  MatTooltipModule
+  MatTooltipModule,
+   MatMenuModule
 ];
 
 @NgModule({

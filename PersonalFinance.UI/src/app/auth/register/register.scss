@@ -5,6 +5,10 @@
   align-items: center;
   height: 100vh;
   background-color: var(--background-color);
+  background-image: url('/assets/images/Media.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  
 }
 
 .register-box {
@@ -14,6 +18,10 @@
   background-color: var(--surface-color);
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  opacity: 0.8;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+  animation: scaleInFadeIn 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) both;
 }
 
 .register-header {
@@ -74,5 +82,15 @@ button[mat-raised-button] {
     &:hover {
       text-decoration: underline;
     }
+  }
+}
+@keyframes scaleInFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }

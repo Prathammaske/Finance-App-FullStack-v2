@@ -1,0 +1,90 @@
+<div class="landing-container">
+  <!-- Top Toolbar -->
+  <mat-toolbar class="landing-toolbar">
+    <span style="color: azure;">Clarity Finance</span>
+    <span class="spacer"></span>
+
+    <!-- This block is shown ONLY if the user is NOT logged in -->
+    <ng-container *ngIf="!authService.isAuthenticated()">
+      <a mat-button routerLink="/login" style="color: azure;">Login</a>
+      <a mat-raised-button color="primary" routerLink="/register">Register</a>
+    </ng-container>
+     <!-- This block is shown ONLY if the user IS logged in -->
+    <ng-container *ngIf="authService.isAuthenticated()">
+      <a mat-button routerLink="/app/dashboard" style="color: azure;">Dashboard</a>
+      <a mat-button routerLink="/app/transactions" style="color: azure;">Transactions</a>
+      <!-- You can add a profile menu here later if desired -->
+      <a mat-raised-button color="accent" routerLink="/app/dashboard">Go to App</a>
+    </ng-container>
+    
+  </mat-toolbar>
+
+  <div class="hero-section">
+    <div class="hero-content">
+
+      <!-- V V V V V V V V V V V V V V V V V V V V V V V V -->
+      <!-- THIS BLOCK IS FOR LOGGED-OUT USERS -->
+      <ng-container *ngIf="!authService.isAuthenticated()">
+        <h1>Take Control of Your Finances.</h1>
+        <p class="subtitle">
+          Simple, powerful, and secure. Clarity Finance helps you track your spending,
+          manage budgets, and achieve your financial goals.
+        </p>
+        <a mat-flat-button class="hero-cta" color="accent" routerLink="/register">
+          Sign Up for Free
+        </a>
+      </ng-container>
+
+      <!-- THIS BLOCK IS FOR LOGGED-IN USERS -->
+      <ng-container *ngIf="authService.isAuthenticated()">
+        <h1>Welcome Back!</h1>
+        <p class="subtitle">
+          You're all set. Let's get back to managing your finances.
+        </p>
+        <a mat-flat-button class="hero-cta" color="accent" routerLink="/app/dashboard">
+          Go to Your Dashboard
+        </a>
+      </ng-container>
+      <!-- ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ -->
+
+    </div>
+  </div>
+  <!-- Features Section -->
+  <div class="features-section">
+    <h2>All The Tools You Need</h2>
+    <div class="features-grid">
+      <mat-card>
+        <mat-card-header>
+          <mat-icon mat-card-avatar>track_changes</mat-icon>
+          <mat-card-title>Track Everything</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Log every income and expense. Know exactly where your money goes.</p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-header>
+          <mat-icon mat-card-avatar>assessment</mat-icon>
+          <mat-card-title>Visualize Your Habits</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>With our insightful dashboard and charts, you can see your spending trends at a glance.</p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-header>
+          <mat-icon mat-card-avatar>rule</mat-icon>
+          <mat-card-title>Master Your Budget</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Set monthly budgets for categories and get alerts before you overspend.</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="landing-footer">
+    <p>&copy; 2025 Clarity Finance</p>
+  </footer>
+</div>

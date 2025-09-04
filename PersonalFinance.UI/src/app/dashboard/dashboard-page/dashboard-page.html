@@ -4,20 +4,17 @@
   <div class="header-bar">
     <h1>Dashboard</h1>
     <div class="header-actions">
-      <!-- ADD THE MISSING BUTTON -->
       <button mat-stroked-button (click)="onCheckNotifications()">
         <mat-icon>notifications_active</mat-icon>
         Check for Alerts
       </button>
       <div class="filter-controls">
-        <!-- Month Dropdown -->
         <mat-form-field appearance="outline" class="filter-field">
           <mat-label>Month</mat-label>
           <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onFilterChange()">
             <mat-option *ngFor="let month of months" [value]="month.value">{{ month.viewValue }}</mat-option>
           </mat-select>
         </mat-form-field>
-        <!-- Year Dropdown -->
         <mat-form-field appearance="outline" class="filter-field">
           <mat-label>Year</mat-label>
           <mat-select [(ngModel)]="selectedYear" (selectionChange)="onFilterChange()">

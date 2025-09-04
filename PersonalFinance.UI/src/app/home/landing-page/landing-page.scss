@@ -1,0 +1,146 @@
+:host {
+  display: block;
+  background-color: var(--surface-color); // White
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.landing-toolbar {
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  color: var(--text-color);
+}
+
+.hero-section {
+  position: relative; // Needed for the overlay
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 80vh; // Make it a bit taller
+  padding: 40px 24px;
+  color: #ffffff; // Set text to white to be visible on the image
+height: 80vh;
+  // The background image
+  background-image: url('/assets/images/fin.jpg');
+  background-size: cover;
+  background-position: center center;
+
+  // A dark overlay to make the text more readable
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 25, 47, 0.7); // A very dark blue overlay
+    z-index: 1;
+  }
+}
+
+.hero-content {
+  position: relative; // Ensure content is on top of the overlay
+  z-index: 2;
+  max-width: 700px;
+
+  // Animation for the hero content
+  h1 {
+    animation: fadeInDown 0.8s ease-in-out both;
+  }
+  .subtitle {
+    animation: fadeInDown 0.8s ease-in-out 0.2s both; // 0.2s delay
+  }
+  .hero-cta {
+    animation: fadeInUp 0.8s ease-in-out 0.4s both; // 0.4s delay
+  }
+}
+
+h1 {
+  font-size: 3.5em;
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0 0 16px;
+      color: white;
+}
+
+.subtitle {
+  font-size: 1.2em;
+  color: rgba(255, 255, 255, 0.8); // Lighter text for the subtitle
+  margin-bottom: 32px;
+}
+
+.hero-cta {
+  transform: scale(1.2);
+}
+
+/* --- Features Section --- */
+.features-section {
+  padding: 80px 24px;
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h2 {
+    font-size: 2.5em;
+    font-weight: 500;
+    margin-bottom: 48px;
+  }
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  text-align: left;
+
+  mat-card {
+    border-top: 4px solid var(--primary-color);
+
+    animation: fadeInUp 0.6s ease-in-out both;
+
+    &:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+    &:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    &:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+  }
+
+  mat-card-avatar {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: var(--primary-color);
+  }
+}
+
+.landing-footer {
+  padding: 40px 24px;
+  text-align: center;
+  background-color: var(--background-color);
+  color: #cfd7de;
+  border-top: 1px solid var(--border-color);
+}
+.mdc-button .login{
+    color: #ffffff !important;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

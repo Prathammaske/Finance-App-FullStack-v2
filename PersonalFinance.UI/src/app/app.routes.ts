@@ -8,19 +8,22 @@ import { ManagementPageComponent } from './management/management-page/management
 import { AdminPageComponent } from './admin/admin-page/admin-page';
 import { authGuard } from './auth/auth-guard';
 import { adminGuard } from './admin/admin-guard';
+ import { LandingPage } from './home/landing-page/landing-page';                
 export const routes: Routes = [
+    {path: '', component: LandingPage},
 { path: 'login', component: LoginComponent },
 { path: 'register', component: RegisterComponent },
 {
-path: '',
+path: 'app',
 component: LayoutComponent,
 canActivate: [authGuard],
 children: [
 { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-{ path: 'dashboard', component: DashboardPageComponent },
-{ path: 'transactions', component: TransactionListComponent },
-{ path: 'management', component: ManagementPageComponent },
-{ path: 'admin', component: AdminPageComponent, canActivate: [adminGuard] }
+{ path: 'dashboard', component: DashboardPageComponent,
+        data: { bodyClass: 'dashboard-bg' } },
+{ path: 'transactions', component: TransactionListComponent ,data: { bodyClass: 'transactions-bg' }},
+{ path: 'management', component: ManagementPageComponent , data: { bodyClass: 'management-bg' }},
+{ path: 'admin', component: AdminPageComponent, canActivate: [adminGuard],data: { bodyClass: 'admin-bg' }  }
 ]
 },
 { path: '**', redirectTo: '' }
