@@ -54,20 +54,16 @@ public class AuthController : ControllerBase
 
         if (user != null && await _userManager.CheckPasswordAsync(user, loginDto.Password!))
         {
-            // The 'await' is needed because GenerateJwtToken now fetches roles asynchronously
             var tokenString = await GenerateJwtToken(user);
 
-            // Return the single access token
             return Ok(new AuthResponseDto { IsSuccess = true, Token = tokenString, Message = "Login successful" });
         }
 
         return Unauthorized(new AuthResponseDto { IsSuccess = false, Message = "Invalid credentials" });
     }
 
-    // This method must be 'async Task<string>' to use 'await' for getting roles
     private async Task<string> GenerateJwtToken(ApplicationUser user)
     {
-        // Use a List<Claim> so we can add the role claims to it
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id),
@@ -75,10 +71,8 @@ public class AuthController : ControllerBase
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
-        // Get the user's roles from the database
         var userRoles = await _userManager.GetRolesAsync(user);
 
-        // Add a role claim for each role the user has
         foreach (var userRole in userRoles)
         {
             claims.Add(new Claim(ClaimTypes.Role, userRole));
@@ -90,7 +84,7 @@ public class AuthController : ControllerBase
         var token = new JwtSecurityToken(
             issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
-            expires: DateTime.UtcNow.AddHours(3), // Set a reasonable expiration for the access token
+            expires: DateTime.UtcNow.AddHours(3), 
             claims: claims,
             signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
         );

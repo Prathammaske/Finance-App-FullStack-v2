@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PersonalFinance.API.Data;
 using PersonalFinance.API.Models;
+using PersonalFinance.API.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -60,7 +61,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 
-builder.Services.AddControllers();
+
 
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
@@ -68,6 +69,8 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 

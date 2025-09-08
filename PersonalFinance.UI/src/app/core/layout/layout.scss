@@ -5,6 +5,8 @@
 
 .sidenav-container {
   height: 100%;
+  // Add a transition for the margin change for a smooth animation
+  transition: margin-left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 mat-sidenav-content {
@@ -17,13 +19,6 @@ mat-sidenav-content {
   padding: 24px;
   flex-grow: 1;
   overflow-y: auto;
-  
-  // V V V V V V V V V V V V V V V V V V V V V V V V
-  // THE FIX IS HERE:
-  // By making this transparent, the background color we set
-  // on the <body> tag in styles.scss will now be visible.
-  background-color: transparent;
-  // ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
 }
 
 .sidenav {
@@ -40,14 +35,13 @@ mat-sidenav-content {
   padding: 0 24px;
   font-size: 1.25rem;
   font-weight: 500;
-  color: var(--primary-color);
-  border-bottom: 1px solid var(--border-color);
+  background: linear-gradient(90deg, var(--primary-color, #0D6EFD), var(--accent-color, #20C997));
+  color: #ffffff;
 }
 
 .main-toolbar {
-  background-color: var(--surface-color);
-  color: var(--text-color);
-  border-bottom: 1px solid var(--border-color);
+  background: linear-gradient(90deg, var(--primary-color, #0D6EFD), var(--accent-color, #20C997));
+  color: #ffffff;
   flex-shrink: 0;
 }
 
@@ -87,25 +81,28 @@ mat-sidenav-content {
 
   .mat-nav-list a {
     justify-content: center;
-
     mat-icon {
       margin-right: 0;
     }
   }
 }
 
-.logout-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.9em;
+.profile-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  color: #ffffff;
+  font-size: 1.1em;
   font-weight: 500;
-  padding: 0 16px;
-  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
 
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.04);
-  }
+.menu-header {
+  padding: 12px 16px;
+  h4 { margin: 0 0 4px; font-size: 1em; font-weight: 500; }
+  p { margin: 0; font-size: 0.85em; color: var(--secondary-color); }
 }
 
 .app-footer {
@@ -121,60 +118,4 @@ mat-sidenav-content {
 
 .app-footer p {
   margin: 0;
-}
-.sidenav-container {
-  height: 100%;
-}
-
-.sidenav {
-  width: 260px;
-  background-color: var(--surface-color, #ffffff);
-  border-right: 1px solid var(--border-color, #dee2e6);
-}
-
-.sidenav-header {
-  height: 63px;
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
-  font-size: 1.25rem;
-  font-weight: 500;
-  // Make the header background your primary blue
- background: linear-gradient(90deg, var(--primary-color, #0D6EFD), var(--accent-color, #20C997));  color: #ffffff; // Set the text to white
-}
-
-.main-toolbar {
-  // Make the top toolbar your primary blue
- background: linear-gradient(90deg, var(--primary-color, #0D6EFD), var(--accent-color, #20C997));  color: #ffffff; // Set the icons and text to white
-}
-
-.spacer {
-  flex: 1 1 auto;
-}
-.profile-button {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: var(--accent-color); // Use your Teal accent color
-  color: #ffffff;
-  font-size: 1.1em;
-  font-weight: 500;
-  border: 2px solid #ffffff; // A nice white border
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-// Styles for the content INSIDE the menu panel
-.menu-header {
-  padding: 12px 16px;
-
-  h4 {
-    margin: 0 0 4px;
-    font-size: 1em;
-    font-weight: 500;
-  }
-  p {
-    margin: 0;
-    font-size: 0.85em;
-    color: var(--secondary-color);
-  }
 }

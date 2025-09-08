@@ -9,6 +9,11 @@ using PersonalFinance.API.Models;
 using System.Security.Claims;
 namespace PersonalFinance.API.Controllers;
 
+using CsvHelper;
+using System.Formats.Asn1;
+using System.Globalization;
+using System.IO;
+
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
@@ -160,5 +165,32 @@ public class TransactionsController : ControllerBase
         await _context.SaveChangesAsync();
 
         return NoContent();
+
+
+    }
+    [HttpGet("export")]
+    public async Task<IActionResult> ExportTransactions()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var transactionsFromDb = await _context.Transactions
+            .Include(t => t.Category)
+            .Include(t => t.Account)
+            .Where(t => t.UserId == userId)
+            .OrderByDescending(t => t.Date)
+            .ToListAsync();
+
+        var records = _mapper.Map<List<TransactionCsvDto>>(transactionsFromDb);
+
+        using (var memoryStream = new MemoryStream())
+        using (var writer = new StreamWriter(memoryStream))
+        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+        {
+            csv.WriteRecords(records);
+            writer.Flush();
+            memoryStream.Position = 0;
+
+            return File(memoryStream.ToArray(), "text/csv", $"Transactions_{DateTime.UtcNow:yyyyMMdd}.csv");
+        }
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -18,7 +18,8 @@ import { AuthService } from '../../auth/auth';
     MaterialModule
   ],
   templateUrl: './layout.html',
-  styleUrls: ['./layout.scss']
+  styleUrls: ['./layout.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush // We are keeping this
 })
 export class LayoutComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
@@ -28,21 +29,21 @@ export class LayoutComponent implements OnDestroy {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    public authService: AuthService
+    public authService: AuthService,
+    private cdr: ChangeDetectorRef // Inject ChangeDetectorRef
   ) {
-    // Subscribe to the breakpoint observer in the constructor.
-    // When the screen size changes, this will update the 'isHandset' boolean.
-    // Angular will automatically detect this change and update the view.
     this.breakpointObserver.observe(Breakpoints.Handset)
       .pipe(
         map(result => result.matches),
         takeUntil(this.destroy$)
       ).subscribe(result => {
+        // After we set the new value...
         this.isHandset = result;
+        // ...we MUST manually tell Angular to check for changes.
+        this.cdr.detectChanges();
       });
   }
 
-  // A single, clean method for the menu button
   toggleMainSidenav(sidenav: MatSidenav): void {
     if (this.isHandset) {
       sidenav.toggle();
@@ -51,7 +52,6 @@ export class LayoutComponent implements OnDestroy {
     }
   }
 
-  // A method for the nav links
   closeSidenavOnMobile(sidenav: MatSidenav): void {
     if (this.isHandset) {
       sidenav.close();
@@ -62,7 +62,6 @@ export class LayoutComponent implements OnDestroy {
     this.authService.logout();
   }
   
-  // Clean up the subscription when the component is destroyed
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

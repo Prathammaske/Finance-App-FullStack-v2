@@ -91,4 +91,34 @@ public class DashboardController : ControllerBase
 
         return Ok(dashboardDto);
     }
+    [HttpGet("spending-trend")]
+    public async Task<IActionResult> GetSpendingTrend()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        // Define the date range: from the start of 5 months ago to the end of this month
+        var sixMonthsAgo = DateTime.UtcNow.AddMonths(-5).StartOfMonth();
+        var thisMonthEnd = DateTime.UtcNow.EndOfMonth();
+
+        // Perform the LINQ query to group and sum expenses by month
+        var spendingTrend = await _context.Transactions
+            .Where(t =>
+                t.UserId == userId &&
+                t.Type == TransactionType.Expense &&
+                t.Status == TransactionStatus.Cleared &&
+                t.Date >= sixMonthsAgo &&
+                t.Date <= thisMonthEnd)
+            .GroupBy(t => new { t.Date.Year, t.Date.Month }) // Group by both year and month
+            .Select(g => new MonthlySpendingDto
+            {
+                Year = g.Key.Year,
+                Month = g.Key.Month,
+                TotalAmount = g.Sum(t => t.Amount)
+            })
+            .OrderBy(s => s.Year)
+            .ThenBy(s => s.Month)
+            .ToListAsync();
+
+        return Ok(spendingTrend);
+    }
 }

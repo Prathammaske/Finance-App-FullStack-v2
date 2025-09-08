@@ -38,7 +38,6 @@ export class BudgetService {
       params = params.set('month', month.toString());
       params = params.set('year', year.toString());
     }
-    // Pass the params object to the request.
     return this.http.get<Budget[]>(this.apiUrl, { headers: this.getAuthHeaders(), params: params });
   }
 
